@@ -10,4 +10,5 @@ public class ChatMessageDTO {
     private String roomId;
     private String writer;
     private String message;
+    private String time; //발송 시간
 }
