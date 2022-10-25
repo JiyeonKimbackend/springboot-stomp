@@ -7,20 +7,15 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ChatRoomDto {
+public class ChatRoomRequestDto {
 
-    private Long roomId;
+//    private Long roomId;
     private String name;
 //    private Set<WebSocketSession> sessions = new HashSet<>();
     //WebSocketSession은 Spring에서 Websocket Connection이 맺어진 세션
 
-    public ChatRoomDto(ChatRoom entity) {
-        this.roomId = entity.getRoomId();
-        this.name = entity.getName();
-    }
-
     @Builder
-    public ChatRoomDto(String name) {
+    public ChatRoomRequestDto(String name) {
         this.name = name;
     }
 
