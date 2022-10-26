@@ -1,6 +1,6 @@
 package com.example.stomp.control;
 
-import com.example.stomp.domain.repository.ChatRoomRepository;
+import com.example.stomp.domain.entity.ChatRoom;
 import com.example.stomp.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,10 +37,15 @@ public class RoomController {
 
     //채팅방 개설
     @PostMapping(value = "/room")
-    public String create(@RequestParam String name, RedirectAttributes rttr){
-
+    public String create(@RequestParam String name, HttpServletRequest request,  RedirectAttributes rttr){
+        //채팅방 개설
         log.info("# Create Chat Room , name: " + name);
-        rttr.addFlashAttribute("roomName", service.createChatRoomDTO(name));
+        ChatRoom chatRoom = service.createChatRoom(name);
+
+        //파일 생성
+        rttr.addFlashAttribute("roomName", chatRoom);
+        String path = request.getServletContext().getRealPath("/chat");//src/main/webapp/chat
+        service.chatRoomToFile(chatRoom, path);
         return "redirect:/chat/rooms";
     }
 
